@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sias.mapper.CityWeather">
+
+    <!--1.按照城市名和日期，查询某一月的天气-->
+    <select id="selectCityMonthWeather" parameterType="map" resultType="com.sias.entity.WCAll">
+        select *
+        from city a
+        join weather b on a.id=b.cityid
+        /*city.id=weather.cityid*/
+        <where>
+            <if test="cityZh!=null and cityZh!=''">
+                and a.cityZh like '%' #{cityZh} '%'
+            </if>
+            <if test="weatherDay!=null and weatherDay!=''">
+                and b.weatherDay like '%' #{weatherDay} '%'
+            </if>
+        </where>
+        /*select * from
+        city , weather
+        where city.id=weather.cityid
+        and weatherDay like '%2022-04%'
+        and cityZh ='北京'*/
+    </select>
+
+    <select id="selectCityWeatherAsIDDate" resultType="com.sias.entity.WCAll">
+        select *
+        from city a
+        join weather b on a.id=b.cityid
+        /*city.id=weather.cityid*/
+        <where>
+            <if test="id!=null and id!=''">
+                and a.id like '%' #{id} '%'
+            </if>
+            <if test="weatherDay!=null and weatherDay!=''">
+                and b.weatherDay like '%' #{weatherDay} '%'
+            </if>
+        </where>
+    </select>
+
+
+    <!--<select id="selectById" parameterType="string" resultType="com.sias.entity.city">
+        select * from city where id=#{id}
+    </select>-->
+</mapper>
